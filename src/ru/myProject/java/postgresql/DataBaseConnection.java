@@ -14,9 +14,7 @@ public class DataBaseConnection {
 
     private static final String CONFIG = "src\\resources\\config.properties";
     Connection connection = null;
-//    String url = "jdbc:postgresql://localhost:5432/northwind";
-//    String user = "postgres";
-//    String password = "alex159";      // password  is wrong
+
 
     private static String getUrl() {
         String url = "jdbc:postgresql://localhost:5432/northwind";
