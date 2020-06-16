@@ -1,4 +1,4 @@
-package databaseconnection;
+package ru.myProject.java.postgresql;
 
 import java.io.FileInputStream;
 import java.io.IOException;
