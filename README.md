@@ -1,1 +1,3 @@
 # DataBaseConnection
+
+- connection refactoring
