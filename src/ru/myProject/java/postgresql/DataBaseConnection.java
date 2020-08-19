@@ -9,7 +9,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
+// класс создания соединения ....
 public class DataBaseConnection {
 
     private static final String CONFIG = "src\\resources\\config.properties";
@@ -17,7 +17,7 @@ public class DataBaseConnection {
 
 
     private static String getUrl() {
-        String url = "jdbc:postgresql://localhost:5432/northwind";
+        String url = "jdbc:postgresql://localhost:5432/raspisanie";
         System.out.println("this is the url... connected...");
         return url;
     }
