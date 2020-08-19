@@ -85,7 +85,7 @@ public final class ReadFile {
             e.printStackTrace();
         }
     }
-
+// метод перебирает все страницы в книге
     public void readCells() {
        FormulaEvaluator fv = book.getCreationHelper().createFormulaEvaluator();
        

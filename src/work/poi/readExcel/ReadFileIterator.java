@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -12,6 +14,8 @@ import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -66,31 +70,24 @@ public class ReadFileIterator {
         pkg.close();
     }
 
-    public void readCells() {
-        FormulaEvaluator fv = book.getCreationHelper().createFormulaEvaluator();
+    public List<DataSpreadsheet> readCells() {
+        List<DataSpreadsheet> data = new LinkedList<DataSpreadsheet>();
 
-        Iterator<Row> rowIt = sheet.iterator();
+   //     sheet = book.getSheetAt(0);  // проверка только первой страницы
+
+        Iterator<Row> rowIt = sheet.rowIterator(); // перебор всех строк
+
         if (rowIt.hasNext()) {
-            rowIt.next();
+            rowIt.next();            // пропустить верхнюю строку страницы
         }
 
-        for (Row row : sheet) {
-
-            for (Cell cell : row) {
-                switch (fv.evaluateInCell(cell).getCellType()) {
-                    case Cell.CELL_TYPE_NUMERIC:
-                        if (DateUtil.isCellDateFormatted(cell)) {
-                            System.out.print(cell.getDateCellValue().toString());
-                        } else {
-                            System.out.print(cell.getNumericCellValue() + "\t\t");
-                        }
-                        break;
-                    case Cell.CELL_TYPE_STRING:
-                        System.out.print(cell.getStringCellValue() + "\t\t");
-                        break;
-                }
-            }
-            System.out.println();
+        while (rowIt.hasNext()) {
+            XSSFRow row = (XSSFRow) rowIt.next();
+            XSSFCell cell = row.getCell(4);
+            DataSpreadsheet cod = new DataSpreadsheet();
+            cod.setCode(cell.getStringCellValue());
+            data.add(cod);
         }
+        return data;
     }
 }
