@@ -3,6 +3,7 @@ package work.poi.readExcel;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -39,7 +41,7 @@ public class ReadFileIterator {
             if (sheet != null) {
                 System.out.println("Страница открыта!");
 // чтение из ячеек
-                readCells();
+                readCells(FILE);
             } else {
                 System.out.println("Не найдена страница!");
             }
@@ -70,7 +72,7 @@ public class ReadFileIterator {
         pkg.close();
     }
 
-    public List<DataSpreadsheet> readCells() {
+    public List<DataSpreadsheet> readCells(final String FILE) {
         List<DataSpreadsheet> data = new LinkedList<DataSpreadsheet>();
 
    //     sheet = book.getSheetAt(0);  // проверка только первой страницы
@@ -90,4 +92,6 @@ public class ReadFileIterator {
         }
         return data;
     }
+    
+
 }

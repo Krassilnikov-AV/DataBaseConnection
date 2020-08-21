@@ -7,10 +7,9 @@ import work.poi.readExcel.ReadFile;
 import work.poi.readExcel.ReadFileIterator;
 
 public class Main {
-
  
     public static void main(String[] args) throws IOException, InvalidFormatException {
-        new ReadFileIterator();   
+        new ReadFile();   
         System.exit(0);
     }    
 }

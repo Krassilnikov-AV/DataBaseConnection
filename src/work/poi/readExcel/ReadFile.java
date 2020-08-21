@@ -26,7 +26,7 @@ public final class ReadFile {
     XSSFWorkbook book;
     private XSSFSheet sheet;
 
-    public ReadFile() {
+    public ReadFile() throws EncryptedDocumentException, InvalidFormatException, IOException {
         if (directory) {
             openBookDirectly("FILE");
         } else {
@@ -54,58 +54,46 @@ public final class ReadFile {
         }
     }
 
-    private void openBook(final String path) {
-        try {
-            File file = new File(path);
-            book = (XSSFWorkbook) WorkbookFactory.create(file);
+    private void openBook(final String path) throws FileNotFoundException,
+            EncryptedDocumentException, InvalidFormatException, IOException {
 
+        File file = new File(path);
+        book = (XSSFWorkbook) WorkbookFactory.create(file);
 //			InputStream is = new FileInputStream(FILE);
 //			book = (XSSFWorkbook) WorkbookFactory.create(is);
-//			is.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (EncryptedDocumentException e) {
-            e.printStackTrace();
-        } catch (InvalidFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//		is.close();
+
     }
 
-    private void openBookDirectly(final String path) {
+    private void openBookDirectly(final String path) throws InvalidFormatException, IOException {
         File file = new File(path);
-        try {
-            OPCPackage pkg = OPCPackage.open(file);
-            book = new XSSFWorkbook(pkg);
-            pkg.close();
-        } catch (InvalidFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        OPCPackage pkg = OPCPackage.open(file);
+        book = new XSSFWorkbook(pkg);
+        pkg.close();
     }
 // метод перебирает все страницы в книге
+
     public void readCells() {
-       FormulaEvaluator fv = book.getCreationHelper().createFormulaEvaluator();
-       
-       for(Row row : sheet) {
-           
-           for (Cell cell : row) {
-               switch(fv.evaluateInCell(cell).getCellType()) {
-                   case Cell.CELL_TYPE_NUMERIC:
-                       if(DateUtil.isCellDateFormatted(cell)) {
-                           System.out.print(cell.getDateCellValue().toString());
-                       } else {
-                       System.out.print(cell.getNumericCellValue() + "\t\t");
-                       }
-                       break;
-                   case Cell.CELL_TYPE_STRING:
-                       System.out.print(cell.getStringCellValue() + "\t\t");                       
-                       break;
-               }
-           }
-           System.out.println();
-       }
+        FormulaEvaluator fv = book.getCreationHelper().createFormulaEvaluator();
+
+        for (Row row : sheet) {
+
+            for (Cell cell : row) {
+                switch (fv.evaluateInCell(cell).getCellType()) {
+                    case Cell.CELL_TYPE_NUMERIC:
+                        if (DateUtil.isCellDateFormatted(cell)) {
+                            System.out.print(cell.getDateCellValue().toString());
+                        } else {
+                            System.out.print(cell.getNumericCellValue() + "\t\t");
+                        }
+                        break;
+                    case Cell.CELL_TYPE_STRING:
+                        System.out.print(cell.getStringCellValue() + "\t\t");
+                        break;
+                }
+            }
+            System.out.println();
+        }
     }
 }
