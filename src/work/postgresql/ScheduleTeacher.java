@@ -1,5 +1,5 @@
 
-package ru.myProject.java.postgresql;
+package work.postgresql;
 
 public class ScheduleTeacher {
     
